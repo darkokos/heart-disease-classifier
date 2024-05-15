@@ -60,6 +60,34 @@ def main():
         plotter.plot_discrete_distribution(variable, label, name)
     print()
 
+    sectioner.pause_execution()
+    average_cholesterol_without_zeroes = data_frame[data_frame['cholesterol'] != 0]['cholesterol'].mean()
+    print_section(f'{round(sum(data_frame['cholesterol'] == 0) / len(data_frame['cholesterol']) * 100, 3)}% of '
+                  f'cholesterol values are 0, replacing with average...\nThe average is: '
+                  f'{average_cholesterol_without_zeroes}')
+    data_frame.replace({'cholesterol': 0}, average_cholesterol_without_zeroes, inplace=True)
+    plotter.plot_boxplot('cholesterol', 'Corrected Cholesterol', 'corrected_cholesterol')
+
+    sectioner.pause_execution()
+    average_oldpeak_without_negatives = data_frame[data_frame['oldpeak'] >= 0]['oldpeak'].mean()
+    print_section(f'{round(sum(data_frame['oldpeak'] < 0) / len(data_frame['oldpeak']) * 100, 3)}% of oldpeak values '
+                  f'are negative, replacing with average...\nThe average is: {average_oldpeak_without_negatives}')
+    data_frame.replace({'oldpeak': 0}, average_oldpeak_without_negatives, inplace=True)
+    plotter.plot_boxplot('oldpeak', 'Corrected Oldpeak', 'corrected_oldpeak')
+
+    sectioner.pause_execution()
+    average_blood_pressure_without_zeroes = data_frame[data_frame['resting bp s'] != 0]['resting bp s'].mean()
+    print_section(f'{round(sum(data_frame['resting bp s'] == 0) / len(data_frame['resting bp s']) * 100, 3)}% of '
+                  f'blood pressure values are 0, replacing with average...\nThe average is: '
+                  f'{average_blood_pressure_without_zeroes}')
+    data_frame.replace({'resting bp s': 0}, average_blood_pressure_without_zeroes, inplace=True)
+    plotter.plot_boxplot('resting bp s', 'Corrected Blood Pressure', 'corrected_resting_bp_s')
+
+    plotter.data_frame = data_frame
+
+    sectioner.pause_execution()
+    plotter.plot_correlation_heatmap('Correlation Heatmap', 'correlation_heatmap')
+
 
 if __name__ == '__main__':
     main()

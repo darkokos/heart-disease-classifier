@@ -9,6 +9,10 @@ class Sectioner:
             'Target Variable Balance Checking',
             'Continuous Variable Distribution Plots',
             'Discrete Variable Distribution Plots',
+            'Cholesterol Correction',
+            'Oldpeak Correction',
+            'Blood Pressure Correction',
+            'Generate Correlation Matrix With Heatmap'
         ])
         self.__advancement_message = 'Enter \'a\' to advance to '
 
