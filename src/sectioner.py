@@ -12,7 +12,8 @@ class Sectioner:
             'Cholesterol Correction',
             'Oldpeak Correction',
             'Blood Pressure Correction',
-            'Generate Correlation Matrix With Heatmap'
+            'Generating Correlation Matrix With Heatmap',
+            'Data Set Preparation For Model Training'
         ])
         self.__advancement_message = 'Enter \'a\' to advance to '
 

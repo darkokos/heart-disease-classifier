@@ -1,6 +1,8 @@
 from descriptive_statistics_plotter import DescriptiveStatisticsPlotter
 import pandas as pd
 from sectioner import Sectioner
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 
 def configure_pandas():
@@ -87,6 +89,21 @@ def main():
 
     sectioner.pause_execution()
     plotter.plot_correlation_heatmap('Correlation Heatmap', 'correlation_heatmap')
+    print()
+
+    sectioner.pause_execution()
+    print_section('Splitting data into training and test sets...')
+    X = data_frame.drop('target', axis=1)
+    y = data_frame['target']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=42)
+    print('Finished splitting data into training and test sets...')
+
+    print_section('Scaling data...')
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+    print('Finished scaling data...')
 
 
 if __name__ == '__main__':
