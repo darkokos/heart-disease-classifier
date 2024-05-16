@@ -13,7 +13,15 @@ class Sectioner:
             'Oldpeak Correction',
             'Blood Pressure Correction',
             'Generating Correlation Matrix With Heatmap',
-            'Data Set Preparation For Model Training'
+            'Data Set Preparation For Model Training',
+            'Naive Bayes Classification',
+            'Naive Bayes Result Overview',
+            'Random Forest Classification',
+            'Random Forest Result Overview',
+            'Decision Tree Classification',
+            'Decision Tree Result Overview',
+            'Extra Trees Classification',
+            'Extra Trees Result Overview'
         ])
         self.__advancement_message = 'Enter \'a\' to advance to '
 

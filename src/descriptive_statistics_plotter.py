@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import os
 from pathlib import Path
 import seaborn as sns
+from sklearn.metrics import confusion_matrix
 
 
 class DescriptiveStatisticsPlotter:
@@ -84,3 +85,14 @@ class DescriptiveStatisticsPlotter:
         plt.title(title, fontsize=20)
 
         self.__save_and_show_plot('', name)
+
+    def plot_confusion_matrix(self, model, y_test, y_pred, name):
+        plt.figure(figsize=(8, 6))
+
+        sns.heatmap(confusion_matrix(y_test, y_pred), fmt='d', cmap='coolwarm', cbar=False, annot=True)
+
+        plt.xlabel('Predicted classes')
+        plt.ylabel('True classes')
+        plt.title('Confusion Matrix', fontsize=20)
+
+        self.__save_and_show_plot(model, name)
