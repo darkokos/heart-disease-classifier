@@ -113,16 +113,21 @@ def main():
     X_test = scaler.transform(X_test)
     print('Finished scaling data...\n')
 
+    accuracies = {}
+
     sectioner.pause_execution()
     classifier = Classifier(X_test, y_test, GaussianNB())
     print()
     classifier.fit(X_train, y_train)
     print()
     y_pred = classifier.predict()
-    print_section(f'Result:\nAccuracy: {accuracy_score(y_test, y_pred)}\n{classification_report(y_test, y_pred)}')
+    accuracy = accuracy_score(y_test, y_pred)
+    accuracies[classifier.model.__class__.__name__] = accuracy
+    print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()
     plotter.plot_confusion_matrix(classifier.model.__class__.__name__, y_test, y_pred, 'confusion_matrix')
+    print()
 
     sectioner.pause_execution()
     classifier.model = RandomForestClassifier(round(np.sqrt(X.shape[1])) - 1)
@@ -130,10 +135,13 @@ def main():
     classifier.fit(X_train, y_train)
     print()
     y_pred = classifier.predict()
-    print_section(f'Result:\nAccuracy: {accuracy_score(y_test, y_pred)}\n{classification_report(y_test, y_pred)}')
+    accuracy = accuracy_score(y_test, y_pred)
+    accuracies[classifier.model.__class__.__name__] = accuracy
+    print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()
     plotter.plot_confusion_matrix(classifier.model.__class__.__name__, y_test, y_pred, 'confusion_matrix')
+    print()
 
     sectioner.pause_execution()
     classifier.model = DecisionTreeClassifier(random_state=42)
@@ -141,10 +149,13 @@ def main():
     classifier.fit(X_train, y_train)
     print()
     y_pred = classifier.predict()
-    print_section(f'Result:\nAccuracy: {accuracy_score(y_test, y_pred)}\n{classification_report(y_test, y_pred)}')
+    accuracy = accuracy_score(y_test, y_pred)
+    accuracies[classifier.model.__class__.__name__] = accuracy
+    print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()
     plotter.plot_confusion_matrix(classifier.model.__class__.__name__, y_test, y_pred, 'confusion_matrix')
+    print()
 
     sectioner.pause_execution()
     classifier.model = ExtraTreesClassifier()
@@ -152,10 +163,17 @@ def main():
     classifier.fit(X_train, y_train)
     print()
     y_pred = classifier.predict()
-    print_section(f'Result:\nAccuracy: {accuracy_score(y_test, y_pred)}\n{classification_report(y_test, y_pred)}')
+    accuracy = accuracy_score(y_test, y_pred)
+    accuracies[classifier.model.__class__.__name__] = accuracy
+    print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()
     plotter.plot_confusion_matrix(classifier.model.__class__.__name__, y_test, y_pred, 'confusion_matrix')
+    print()
+
+    sectioner.pause_execution()
+    plotter.plot_barplot(dict(sorted(accuracies.items(), key=lambda item: item[1], reverse=True)))
+    print()
 
 
 if __name__ == '__main__':

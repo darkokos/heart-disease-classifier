@@ -21,7 +21,9 @@ class Sectioner:
             'Decision Tree Classification',
             'Decision Tree Result Overview',
             'Extra Trees Classification',
-            'Extra Trees Result Overview'
+            'Extra Trees Result Overview',
+            'Models Comparison',
+            'Retrospect'
         ])
         self.__advancement_message = 'Enter \'a\' to advance to '
 

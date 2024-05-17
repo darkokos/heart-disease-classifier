@@ -43,7 +43,7 @@ class DescriptiveStatisticsPlotter:
     def plot_continuous_distribution(self, x_label, y_label, name, bins):
         fig, ax = plt.subplots()
         try:
-            sns.histplot(self.__data_frame[x_label], ax=ax, bins=bins, kde=True)
+            sns.histplot(self.__data_frame[x_label], ax=ax, bins=bins, kde=True, palette='coolwarm')
             ax.set_title(f'Distribution of {y_label}')
             ax.set_label(x_label)
             ax.set_ylabel(y_label)
@@ -55,7 +55,7 @@ class DescriptiveStatisticsPlotter:
     def plot_histogram(self, label, y_label, bins, name):
         fig, ax = plt.subplots()
         try:
-            sns.histplot(self.__data_frame[label], bins=bins)
+            sns.histplot(self.__data_frame[label], bins=bins, palette='coolwarm')
             ax.set_title(y_label)
 
             self.__save_and_show_plot(label, name)
@@ -80,9 +80,9 @@ class DescriptiveStatisticsPlotter:
         correlation_matrix = self.__data_frame.corr(numeric_only=True)
         sns.heatmap(correlation_matrix, vmin=-1, vmax=1, fmt='.2f', cmap='coolwarm', annot=True, linewidths=.5)
 
+        plt.title(title, fontsize=20)
         plt.xticks(rotation=45)
         plt.yticks(rotation=0)
-        plt.title(title, fontsize=20)
 
         self.__save_and_show_plot('', name)
 
@@ -91,8 +91,21 @@ class DescriptiveStatisticsPlotter:
 
         sns.heatmap(confusion_matrix(y_test, y_pred), fmt='d', cmap='coolwarm', cbar=False, annot=True)
 
+        plt.title('Confusion Matrix', fontsize=20)
         plt.xlabel('Predicted classes')
         plt.ylabel('True classes')
-        plt.title('Confusion Matrix', fontsize=20)
 
         self.__save_and_show_plot(model, name)
+
+    def plot_barplot(self, data):
+        plt.figure(figsize=(13, 6))
+
+        plt.barh(list(data.keys()), list(data.values()))
+
+        plt.xlim(0, 1)
+        plt.title('Model Accuracies')
+        plt.xlabel('Accuracy')
+
+        plt.gca().invert_yaxis()
+
+        self.__save_and_show_plot('', 'accuracies')
