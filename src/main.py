@@ -114,6 +114,7 @@ def main():
     print('Finished scaling data...\n')
 
     accuracies = {}
+    used_models = {}
 
     sectioner.pause_execution()
     classifier = Classifier(X_test, y_test, GaussianNB())
@@ -122,7 +123,8 @@ def main():
     print()
     y_pred = classifier.predict()
     accuracy = accuracy_score(y_test, y_pred)
-    accuracies[classifier.model.__class__.__name__] = accuracy
+    accuracies[accuracy] = classifier.model.__class__.__name__
+    used_models[classifier.model.__class__.__name__] = GaussianNB()
     print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()
@@ -130,13 +132,15 @@ def main():
     print()
 
     sectioner.pause_execution()
-    classifier.model = RandomForestClassifier(round(np.sqrt(X.shape[1])) - 1)
+    m = round(np.sqrt(X.shape[1])) - 1
+    classifier.model = RandomForestClassifier(m)
     print()
     classifier.fit(X_train, y_train)
     print()
     y_pred = classifier.predict()
     accuracy = accuracy_score(y_test, y_pred)
-    accuracies[classifier.model.__class__.__name__] = accuracy
+    accuracies[accuracy] = classifier.model.__class__.__name__
+    used_models[classifier.model.__class__.__name__] = RandomForestClassifier(m)
     print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()
@@ -150,7 +154,8 @@ def main():
     print()
     y_pred = classifier.predict()
     accuracy = accuracy_score(y_test, y_pred)
-    accuracies[classifier.model.__class__.__name__] = accuracy
+    accuracies[accuracy] = classifier.model.__class__.__name__
+    used_models[classifier.model.__class__.__name__] = DecisionTreeClassifier(random_state=42)
     print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()
@@ -164,7 +169,8 @@ def main():
     print()
     y_pred = classifier.predict()
     accuracy = accuracy_score(y_test, y_pred)
-    accuracies[classifier.model.__class__.__name__] = accuracy
+    accuracies[accuracy] = classifier.model.__class__.__name__
+    used_models[classifier.model.__class__.__name__] = ExtraTreesClassifier()
     print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()
@@ -172,8 +178,19 @@ def main():
     print()
 
     sectioner.pause_execution()
-    plotter.plot_barplot(dict(sorted(accuracies.items(), key=lambda item: item[1], reverse=True)))
+    plotter.plot_barplot(dict(sorted({v: k for k, v in accuracies.items()}.items(), key=lambda x: x[1], reverse=True)))
     print()
+
+    sectioner.pause_execution()
+    classifier.model = used_models[max(accuracies.items())[1]]
+    print()
+    classifier.fit(X_train, y_train)
+    print()
+    classifier.predict()
+    plotter.plot_feature_importances(
+        classifier.model.__class__.__name__,
+        pd.Series(classifier.model.feature_importances_, index=X.columns).sort_values(ascending=False)
+    )
 
 
 if __name__ == '__main__':

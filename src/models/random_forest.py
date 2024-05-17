@@ -8,6 +8,10 @@ class RandomForestClassifier:
         self.__model = Rfc(random_state=42, n_jobs=1, warm_start=True, max_features=max_features, oob_score=True)
         self.__best_n_trees = 0
 
+    @property
+    def feature_importances_(self):
+        return self.__model.feature_importances_
+
     def fit(self, X_train, y_train):
         best_oob_error = float('inf')
 

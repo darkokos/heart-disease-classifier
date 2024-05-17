@@ -109,3 +109,12 @@ class DescriptiveStatisticsPlotter:
         plt.gca().invert_yaxis()
 
         self.__save_and_show_plot('', 'accuracies')
+
+    def plot_feature_importances(self, model_name, feature_importances):
+        feature_importances.plot(kind='bar', figsize=(10, 12))
+
+        plt.title(f'Feature importances in {model_name}')
+        plt.xlabel('Features')
+        plt.ylabel('Importance')
+
+        self.__save_and_show_plot('', model_name + '_feature_importances')
