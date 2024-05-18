@@ -116,5 +116,7 @@ class DescriptiveStatisticsPlotter:
         plt.title(f'Feature importances in {model_name}')
         plt.xlabel('Features')
         plt.ylabel('Importance')
+        plt.xticks(rotation=45)
+        plt.yticks(rotation=0)
 
         self.__save_and_show_plot('', model_name + '_feature_importances')
