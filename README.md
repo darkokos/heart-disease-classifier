@@ -15,6 +15,7 @@ Run the src/main.py script and follow the instructions in the console
 * Random Forest
 * Decision Tree
 * Extra Trees
+* Artificial Neural Network (Keras)
 
 # Contributor
 - Darko Svilar, SV50/2021

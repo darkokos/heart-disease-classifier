@@ -1,3 +1,4 @@
+from models.artificial_neural_network import ArtificialNeuralNetwork
 from models.classifier import Classifier
 from models.extra_trees import ExtraTreesClassifier
 from models.random_forest import RandomForestClassifier
@@ -171,6 +172,21 @@ def main():
     accuracy = accuracy_score(y_test, y_pred)
     accuracies[accuracy] = classifier.model.__class__.__name__
     used_models[classifier.model.__class__.__name__] = ExtraTreesClassifier()
+    print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
+
+    sectioner.pause_execution()
+    plotter.plot_confusion_matrix(classifier.model.__class__.__name__, y_test, y_pred, 'confusion_matrix')
+    print()
+
+    sectioner.pause_execution()
+    classifier.model = ArtificialNeuralNetwork(X_train.shape[1], X_test, y_test)
+    print()
+    classifier.fit(X_train, y_train)
+    print()
+    y_pred = classifier.predict()
+    accuracy = accuracy_score(y_test, y_pred)
+    accuracies[accuracy] = classifier.model.__class__.__name__
+    used_models[classifier.model.__class__.__name__] = ArtificialNeuralNetwork(X_train.shape[1], X_test, y_test)
     print(f'\nResult:\nAccuracy: {accuracy}\n{classification_report(y_test, y_pred)}')
 
     sectioner.pause_execution()

@@ -22,6 +22,8 @@ class Sectioner:
             'Decision Tree Result Overview',
             'Extra Trees Classification',
             'Extra Trees Result Overview',
+            'Artificial Neural Network Classification',
+            'Artificial Neural Network Result Overview',
             'Models Comparison',
             'Retrospect'
         ])
